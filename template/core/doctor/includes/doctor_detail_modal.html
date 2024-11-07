@@ -1,0 +1,49 @@
+<div class="modal fade" id="doctorModal" tabindex="-1" aria-labelledby="doctorModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+          <div class="modal-header bg-primary bg-opacity-75">
+              <h5 class="modal-title text-white fw-bold" id="doctorModalLabel">
+                  <i class="fas fa-user-md me-2"></i>Detalles del Doctor
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <div class="row">
+                  <!-- Columna para la foto del doctor -->
+                  <div class="col-md-4 text-center mb-3">
+                      <img id="doctor-foto" class="img-fluid rounded-circle" src="" alt="Foto del doctor" style="max-width: 150px;">
+                  </div>
+                  <!-- Columna para los detalles del doctor -->
+                  <div class="col-md-8">
+                      <div class="row">
+                          <!-- Detalles del doctor -->
+                          <div class="col-12 col-md-6 mb-3">
+                              <p><strong>ID:</strong> <span id="doctor-id"></span></p>
+                              <p><strong>Nombre Completo:</strong> <span id="doctor-nombre"></span></p>
+                              <p><strong>Cédula:</strong> <span id="doctor-cedula"></span></p>
+                          </div>
+                          <div class="col-12 col-md-6 mb-3">
+                              <p><strong>Teléfono:</strong> <span id="doctor-telefono"></span></p>
+                              <p><strong>Dirección:</strong> <span id="doctor-direccion"></span></p>
+                              <p><strong>Email:</strong> <span id="doctor-email"></span></p>
+                              <p><strong>Horario de Atención:</strong> <span id="doctor-horario"></span></p>
+                              <p><strong>Duración Cita:</strong> <span id="doctor-duracion"></span> minutos</p>
+                              <p><strong>Curriculum:</strong> <a id="doctor-curriculum" href="#" target="_blank">Ver Curriculum</a></p>
+                          </div>
+
+                          <!-- Mostrar especialidades -->
+                          <div class="col-12 mb-3">
+                              <p><strong>Especialidades:</strong> <span id="doctor-especialidades"></span></p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                  <i class="fas fa-times me-2"></i>Cerrar
+              </button>
+          </div>
+      </div>
+  </div>
+</div>

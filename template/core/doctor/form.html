@@ -1,0 +1,143 @@
+{% extends "components/base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">{{ title1 }}</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row g-3">
+            <!-- Nombres -->
+            <div class="col-md-6">
+                <label for="id_nombres" class="form-label">{{ form.nombres.label }}</label>
+                {{ form.nombres }}
+                <div class="text-danger">{{ form.nombres.errors }}</div>
+            </div>
+
+            <!-- Apellidos -->
+            <div class="col-md-6">
+                <label for="id_apellidos" class="form-label">{{ form.apellidos.label }}</label>
+                {{ form.apellidos }}
+                <div class="text-danger">{{ form.apellidos.errors }}</div>
+            </div>
+
+            <!-- Cédula -->
+            <div class="col-md-6">
+                <label for="id_cedula" class="form-label">{{ form.cedula.label }}</label>
+                {{ form.cedula }}
+                <div class="text-danger">{{ form.cedula.errors }}</div>
+            </div>
+
+            <!-- Fecha de Nacimiento -->
+            <div class="col-md-6">
+                <label for="id_fecha_nacimiento" class="form-label">{{ form.fecha_nacimiento.label }}</label>
+                {{ form.fecha_nacimiento }}
+                <div class="text-danger">{{ form.fecha_nacimiento.errors }}</div>
+            </div>
+
+            <!-- Dirección -->
+            <div class="col-md-6">
+                <label for="id_direccion" class="form-label">{{ form.direccion.label }}</label>
+                {{ form.direccion }}
+                <div class="text-danger">{{ form.direccion.errors }}</div>
+            </div>
+
+            <!-- Latitud -->
+            <div class="col-md-6">
+                <label for="id_latitud" class="form-label">{{ form.latitud.label }}</label>
+                {{ form.latitud }}
+                <div class="text-danger">{{ form.latitud.errors }}</div>
+            </div>
+
+            <!-- Longitud -->
+            <div class="col-md-6">
+                <label for="id_longitud" class="form-label">{{ form.longitud.label }}</label>
+                {{ form.longitud }}
+                <div class="text-danger">{{ form.longitud.errors }}</div>
+            </div>
+
+            <!-- Código Único del Doctor -->
+            <div class="col-md-6">
+                <label for="id_codigoUnicoDoctor" class="form-label">{{ form.codigoUnicoDoctor.label }}</label>
+                {{ form.codigoUnicoDoctor }}
+                <div class="text-danger">{{ form.codigoUnicoDoctor.errors }}</div>
+            </div>
+
+            <!-- Especialidades -->
+            <div class="col-md-6">
+                <label for="id_especialidad" class="form-label">{{ form.especialidad.label }}</label>
+                {{ form.especialidad }}
+                <div class="text-danger">{{ form.especialidad.errors }}</div>
+            </div>
+
+            <!-- Teléfonos -->
+            <div class="col-md-6">
+                <label for="id_telefonos" class="form-label">{{ form.telefonos.label }}</label>
+                {{ form.telefonos }}
+                <div class="text-danger">{{ form.telefonos.errors }}</div>
+            </div>
+
+            <!-- Email -->
+            <div class="col-md-6">
+                <label for="id_email" class="form-label">{{ form.email.label }}</label>
+                {{ form.email }}
+                <div class="text-danger">{{ form.email.errors }}</div>
+            </div>
+
+            <!-- Horario de Atención -->
+            <div class="col-md-6">
+                <label for="id_horario_atencion" class="form-label">{{ form.horario_atencion.label }}</label>
+                {{ form.horario_atencion }}
+                <div class="text-danger">{{ form.horario_atencion.errors }}</div>
+            </div>
+
+            <!-- Duración de la Cita -->
+            <div class="col-md-6">
+                <label for="id_duracion_cita" class="form-label">{{ form.duracion_cita.label }}</label>
+                {{ form.duracion_cita }}
+                <div class="text-danger">{{ form.duracion_cita.errors }}</div>
+            </div>
+
+            <!-- Curriculum Vitae -->
+            <div class="col-md-6">
+                <label for="id_curriculum" class="form-label">{{ form.curriculum.label }}</label>
+                {{ form.curriculum }}
+                <div class="text-danger">{{ form.curriculum.errors }}</div>
+            </div>
+
+            <!-- Firma Digital -->
+            <div class="col-md-6">
+                <label for="id_firmaDigital" class="form-label">{{ form.firmaDigital.label }}</label>
+                {{ form.firmaDigital }}
+                <div class="text-danger">{{ form.firmaDigital.errors }}</div>
+            </div>
+
+            <!-- Foto -->
+            <div class="col-md-6">
+                <label for="id_foto" class="form-label">{{ form.foto.label }}</label>
+                {{ form.foto }}
+                <div class="text-danger">{{ form.foto.errors }}</div>
+            </div>
+
+            <!-- Imagen para Recetas -->
+            <div class="col-md-6">
+                <label for="id_imagen_receta" class="form-label">{{ form.imagen_receta.label }}</label>
+                {{ form.imagen_receta }}
+                <div class="text-danger">{{ form.imagen_receta.errors }}</div>
+            </div>
+
+            <!-- Activo -->
+            <div class="col-md-6">
+                <label for="id_activo" class="form-label">{{ form.activo.label }}</label>
+                {{ form.activo }}
+                <div class="text-danger">{{ form.activo.errors }}</div>
+            </div>
+
+            <!-- Botones de acción -->
+            <div class="col-12 d-flex justify-content-between mt-4">
+                <a href="{{ back_url }}" class="btn btn-secondary">Cancelar</a>
+                <button type="submit" class="btn btn-primary">{{ grabar }}</button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

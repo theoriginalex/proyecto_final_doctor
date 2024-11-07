@@ -1,0 +1,156 @@
+{% extends "components/base.html" %}
+{% block content %} 
+  <div class="container-fluid">
+    <div class="row">
+       <!-- Main Content -->
+        <div class="col-md-12 col-lg-12 px-md-4 main-content">
+           
+            <!-- Medication Type List Content -->
+            <div class="card mb-4">
+                <div class="card-body">
+                   <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3 class="card-title mb-0 text-primary fw-bold">Listado de Tipos de Medicamentos</h3>
+                   </div>
+
+                   <!-- Search and Filter -->
+                   <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between g-3 mb-4">
+                    <form method="GET" action="{% url 'core:tipo_medicamento_list' %}" class="d-flex flex-column flex-md-row gap-3 align-items-md-center">
+                        <div class="col-md-6">
+                            <input type="text" name="q" class="form-control search-box" value="{{ request.GET.q }}" placeholder="Buscar tipo de medicamento..." oninput="buscarTipoMedicamento(this.value)">
+                        </div>
+                      </form>
+                      <a class="btn btn-primary mt-3 mt-md-0" href="{% url 'core:tipo_medicamento_create' %}">
+                          <i class="fas fa-plus me-2"></i>Nuevo Tipo de Medicamento
+                      </a>
+                    </div>
+
+                    <!-- Medication Type Table -->
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Tipo de Medicamento</th>
+                                    <th>Descripción</th>
+                                    <th>Activo</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                               {% for item in tipos_medicamento %} 
+                                <tr>
+                                    <td>{{ item.nombre }}</td>
+                                    <td>{{ item.descripcion }}</td>
+                                    <td>{{ item.activo|yesno:"Sí,No" }}</td>
+                                    <td>
+                                        <div class="action-buttons d-flex gap-2">
+                                           <button class="btn btn-primary btn-sm" title="Detalle Tipo de Medicamento"
+                                                onclick="verTipoMedicamento('{{ item.id }}')">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <a href="{% url 'core:tipo_medicamento_update' item.id %}" class="btn btn-success btn-sm text-white" title="Editar Tipo de Medicamento">
+                                                <i class="fas fa-pencil-alt"></i>
+                                            </a>
+                                            {% with id=item.id name=item.nombre msg="¿Está seguro de eliminar el tipo de medicamento:" %}
+                                             <button class="btn btn-danger btn-sm" title="Eliminar Tipo de Medicamento" onclick="confirmDelete('{{ id }}','{{ name }}','{{ msg|escapejs }}');">
+                                                <i class="fas fa-trash"></i>
+                                             </button>
+                                            {% endwith %}
+                                        </div>
+                                    </td>
+                                </tr>
+                               {% endfor %} 
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <nav class="d-flex justify-content-between align-items-center mt-4">
+                        <p class="text-muted mb-0">{{ page_obj.start_index }} - {{ page_obj.end_index }} de {{ page_obj.paginator.count }} tipos de medicamento</p>
+                        <ul class="pagination mb-0">
+                            {% if page_obj.has_previous %} 
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=1"><i class="fas fa-chevron-left"></i></a>
+                                </li>
+                            {% endif %}
+                            {% for num in page_obj.paginator.page_range %}
+                              <li class="page-item {% if page_obj.number == num %}active{% endif %}"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                            {% endfor %}
+                            {% if page_obj.has_next %}
+                              <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}"><i class="fas fa-chevron-right"></i></a>
+                              </li>
+                             {% endif %}
+                        </ul>
+                    </nav>
+                    <!-- End of Pagination -->
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  <!-- Include delete confirmation modal -->
+  {% include 'includes/confirm_delete_modal.html' %}
+  <!-- Include medication type detail modal -->
+  {% include 'core/tipo_medicamento/includes/tipo_medicamento_detail_modal.html' %}
+{% endblock %}
+
+{% block js %}
+  <script>
+    // Delete confirmation function
+    function confirmDelete(id, name, msg) {
+        document.getElementById('modalMessage').innerText = `${msg} ${name}`;
+        const form = document.getElementById('deleteForm');
+        form.action = `/tipo_medicamento_delete/${id}/`;
+        const modal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
+        modal.show();
+    }
+    
+    function closeModal() {
+        const modalElement = document.getElementById('confirmDeleteModal');
+        const modalInstance = bootstrap.Modal.getInstance(modalElement);
+        if (modalInstance) {
+            modalInstance.hide();
+        }
+    }
+
+    function buscarTipoMedicamento(query) {
+        fetch(`/tipo_medicamento_list/?q=${encodeURIComponent(query)}`)
+            .then(response => response.text())
+            .then(html => {
+                // Reemplaza el contenido de la tabla con los nuevos resultados
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const newTableBody = doc.querySelector('tbody');
+                document.querySelector('table tbody').innerHTML = newTableBody.innerHTML;
+            })
+            .catch(error => {
+                console.error('Error al realizar la búsqueda:', error);
+            });
+    }
+
+    function verTipoMedicamento(id) {
+        fetch(`/tipo_medicamento_detail/${id}/`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error al cargar los datos del tipo de medicamento');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Asignar los valores obtenidos al modal
+                document.getElementById('tipoMedicamento-id').textContent = data.id || 'N/A';
+                document.getElementById('tipoMedicamento-nombre').textContent = data.nombre || 'N/A';
+                document.getElementById('tipoMedicamento-descripcion').textContent = data.descripcion || 'N/A';
+                document.getElementById('tipoMedicamento-activo').textContent = data.activo ? 'Sí' : 'No';
+
+                // Mostrar el modal
+                const modal = new bootstrap.Modal(document.getElementById('tipoMedicamentoModal'));
+                modal.show();
+            })
+            .catch(error => {
+                console.error(error);
+                alert('No se pudieron cargar los detalles. Intente nuevamente.');
+            });
+    }
+  </script>
+{% endblock %}

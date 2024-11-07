@@ -1,0 +1,195 @@
+{% extends "components/base.html" %}
+
+{% block content %}
+  <div class="container-fluid">
+    <div class="row">
+       <!-- Main Content -->
+        <div class="col-md-12 col-lg-12 px-md-4 main-content">
+           
+            <!-- Doctor List Content -->
+            <div class="card mb-4">
+                <div class="card-body">
+                   <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3 class="card-title mb-0 text-primary fw-bold">Listado de Doctores</h3>
+                   </div>
+
+                   <!-- Search and Filter -->
+                   <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between g-3 mb-4">
+                    <form method="GET" action="{% url 'core:doctor_list' %}" class="d-flex flex-column flex-md-row gap-3 align-items-md-center">
+                        <div class="col-md-6">
+                            <input type="text" name="q" class="form-control search-box" value="{{ request.GET.q }}" placeholder="Buscar doctor..." oninput="buscarDoctor(this.value)">
+                        </div>
+                      </form>
+                      <a class="btn btn-primary mt-3 mt-md-0" href="{% url 'core:doctor_create' %}">
+                          <i class="fas fa-plus me-2"></i>Nuevo Doctor
+                      </a>
+                    </div>
+
+                    <!-- Doctor Table -->
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Foto</th>
+                                    <th>Nombre</th>
+                                    <th>Especialidad</th>
+                                    <th>Cédula</th>
+                                    <th>Teléfonos</th>
+                                    <th>Horario de Atención</th>
+                                    <th>Email</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                               {% for doctor in doctores %}
+                                <tr>
+                                    <td>
+                                        {% if doctor.foto %}
+                                            <img src="{{ doctor.foto.url }}" alt="Foto de {{ doctor.nombres }}" class="img-fluid" style="max-width: 60px; max-height: 60px; object-fit: cover;">
+                                        {% else %}
+                                            {% load static %}
+                                            <img src="{% static 'img/usuario_anonimo.png' %}" alt="Foto por defecto" class="img-fluid" style="max-width: 60px; max-height: 60px;">
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ doctor.nombres }} {{ doctor.apellidos }}</td>
+                                    <td>
+                                      {% for especialidad in doctor.especialidad.all %}
+                                          {{ especialidad.nombre }}{% if not forloop.last %}, {% endif %}
+                                      {% empty %}
+                                          <span>No tiene especialidad asignada</span>
+                                      {% endfor %}
+                                  </td>
+                                    <td>{{ doctor.cedula }}</td>
+                                    <td>{{ doctor.telefonos }}</td>
+                                    <td>{{ doctor.horario_atencion }}</td>
+                                    <td>{{ doctor.email }}</td>
+                                    <td>
+                                        <div class="action-buttons d-flex gap-2">
+                                           <button class="btn btn-primary btn-sm" title="Ver Detalle Doctor"
+                                                onclick="verDoctor('{{ doctor.id }}')">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <a href="{% url 'core:doctor_update' doctor.id %}" class="btn btn-success btn-sm text-white" title="Editar Doctor">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            {% with id=doctor.id name=doctor.nombres msg="¿Está seguro de eliminar al doctor:" %}
+                                             <button class="btn btn-danger btn-sm" title="Eliminar Doctor" onclick="confirmDelete('{{ id }}','{{ name }}','{{ msg|escapejs }}');">
+                                                <i class="fas fa-trash"></i>
+                                             </button>
+                                            {% endwith %}
+                                        </div>
+                                    </td>
+                                </tr>
+                               {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <nav class="d-flex justify-content-between align-items-center mt-4">
+                        <p class="text-muted mb-0">{{ page_obj.start_index }} - {{ page_obj.end_index }} de {{ page_obj.paginator.count }} doctores</p>
+                        <ul class="pagination mb-0">
+                            {% if page_obj.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=1"><i class="fas fa-chevron-left"></i></a>
+                                </li>
+                            {% endif %}
+                            {% for num in page_obj.paginator.page_range %}
+                              <li class="page-item {% if page_obj.number == num %}active{% endif %}"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                            {% endfor %}
+                            {% if page_obj.has_next %}
+                              <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}"><i class="fas fa-chevron-right"></i></a>
+                              </li>
+                             {% endif %}
+                        </ul>
+                    </nav>
+                    <!-- End of Pagination -->
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  <!-- Include delete confirmation modal -->
+  {% include 'includes/confirm_delete_modal.html' %}
+  <!-- Include doctor detail modal -->
+  {% include 'core/doctor/includes/doctor_detail_modal.html' %}
+{% endblock %}
+
+{% block js %}
+  <script>
+    // Delete confirmation function
+    function confirmDelete(id, name, msg) {
+        document.getElementById('modalMessage').innerText = `${msg} ${name}`;
+        const form = document.getElementById('deleteForm');
+        form.action = `/doctor_delete/${id}/`;
+        const modal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
+        modal.show();
+    }
+    
+    function closeModal() {
+        const modalElement = document.getElementById('confirmDeleteModal');
+        const modalInstance = bootstrap.Modal.getInstance(modalElement);
+        if (modalInstance) {
+            modalInstance.hide();
+        }
+    }
+
+    function buscarDoctor(query) {
+        fetch(`/doctor_list/?q=${encodeURIComponent(query)}`)
+            .then(response => response.text())
+            .then(html => {
+                // Reemplaza el contenido de la tabla con los nuevos resultados
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const newTableBody = doc.querySelector('tbody');
+                document.querySelector('table tbody').innerHTML = newTableBody.innerHTML;
+            })
+            .catch(error => {
+                console.error('Error al realizar la búsqueda:', error);
+            });
+    }
+
+    function verDoctor(id) {
+    fetch(`/doctor_detail/${id}/`)  // Verifica que esta URL coincide con la que has definido en urls.py
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                console.error(data.error);
+                alert('Error: ' + data.error);
+            } else {
+                document.getElementById('doctor-id').textContent = data.id;
+                document.getElementById('doctor-nombre').textContent = data.nombre_completo;
+                document.getElementById('doctor-cedula').textContent = data.cedula;
+                document.getElementById('doctor-telefono').textContent = data.telefono;
+                document.getElementById('doctor-direccion').textContent = data.direccion;
+                document.getElementById('doctor-email').textContent = data.email;
+                document.getElementById('doctor-horario').textContent = data.horario_atencion;
+                document.getElementById('doctor-duracion').textContent = data.duracion_cita;
+                
+                // Si tienes una foto
+                if (data.foto_url) {
+                    document.getElementById('doctor-foto').src = data.foto_url;
+                }
+
+                // Si tienes un curriculum
+                if (data.curriculum_url) {
+                    document.getElementById('doctor-curriculum').href = data.curriculum_url;
+                }
+
+                // Mostrar especialidades
+                document.getElementById('doctor-especialidades').textContent = data.especialidades.join(', ');
+
+                const modal = new bootstrap.Modal(document.getElementById('doctorModal'));
+                modal.show();
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error al cargar los detalles del doctor');
+        });
+}
+
+
+  </script>
+{% endblock %}

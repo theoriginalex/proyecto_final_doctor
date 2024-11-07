@@ -1,0 +1,186 @@
+{% extends "components/base.html" %}
+
+{% block content %}
+  <div class="container-fluid">
+    <div class="row">
+       <!-- Main Content -->
+        <div class="col-md-12 col-lg-12 px-md-4 main-content">
+           
+            <!-- Employee List Content -->
+            <div class="card mb-4">
+                <div class="card-body">
+                   <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3 class="card-title mb-0 text-primary fw-bold">Listado de Empleados</h3>
+                   </div>
+
+                   <!-- Search and Filter -->
+                   <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between g-3 mb-4">
+                    <form method="GET" action="{% url 'core:empleado_list' %}" class="d-flex flex-column flex-md-row gap-3 align-items-md-center">
+                        <div class="col-md-6">
+                            <input type="text" name="q" class="form-control search-box" value="{{ request.GET.q }}" placeholder="Buscar empleado..." oninput="buscarEmpleado(this.value)">
+                        </div>
+                      </form>
+                      <a class="btn btn-primary mt-3 mt-md-0" href="{% url 'core:empleado_create' %}">
+                          <i class="fas fa-plus me-2"></i>Nuevo Empleado
+                      </a>
+                    </div>
+
+                    <!-- Employee Table -->
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Foto</th>
+                                    <th>Nombre</th>
+                                    <th>Cédula</th>
+                                    <th>Cargo</th>
+                                    <th>Dirección</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                               {% for empleado in empleados %}
+                                <tr>
+                                    <td>
+                                        {% if empleado.foto %}
+                                            <img src="{{ empleado.foto.url }}" alt="Foto de {{ empleado.nombre }}" class="img-fluid" style="max-width: 60px; max-height: 60px; object-fit: cover;">
+                                        {% else %}
+                                            {% load static %}
+                                            <img src="{% static 'img/usuario_anonimo.png' %}" alt="Foto por defecto" class="img-fluid" style="max-width: 60px; max-height: 60px;">
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ empleado.nombre_completo }}</td>
+                                    <td>{{ empleado.cedula }}</td>
+                                    <td>{{ empleado.cargo }}</td>
+                                    <td>{{ empleado.direccion }}</td>
+                                    <td>
+                                        <div class="action-buttons d-flex gap-2">
+                                           <button class="btn btn-primary btn-sm" title="Ver Detalle Empleado"
+                                                onclick="verEmpleado('{{ empleado.id }}')">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <a href="{% url 'core:empleado_update' empleado.id %}" class="btn btn-success btn-sm text-white" title="Editar Empleado">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            {% with id=empleado.id name=empleado.nombre msg="¿Está seguro de eliminar al empleado:" %}
+                                             <button class="btn btn-danger btn-sm" title="Eliminar Empleado" onclick="confirmDelete('{{ id }}','{{ name }}','{{ msg|escapejs }}');">
+                                                <i class="fas fa-trash"></i>
+                                             </button>
+                                            {% endwith %}
+                                        </div>
+                                    </td>
+                                </tr>
+                               {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <nav class="d-flex justify-content-between align-items-center mt-4">
+                        <p class="text-muted mb-0">{{ page_obj.start_index }} - {{ page_obj.end_index }} de {{ page_obj.paginator.count }} empleados</p>
+                        <ul class="pagination mb-0">
+                            {% if page_obj.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=1"><i class="fas fa-chevron-left"></i></a>
+                                </li>
+                            {% endif %}
+                            {% for num in page_obj.paginator.page_range %}
+                              <li class="page-item {% if page_obj.number == num %}active{% endif %}"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                            {% endfor %}
+                            {% if page_obj.has_next %}
+                              <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}"><i class="fas fa-chevron-right"></i></a>
+                              </li>
+                             {% endif %}
+                        </ul>
+                    </nav>
+                    <!-- End of Pagination -->
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  <!-- Include delete confirmation modal -->
+  {% include 'includes/confirm_delete_modal.html' %}
+  <!-- Include employee detail modal -->
+  {% include 'core/empleado/includes/empleado_detail_modal.html' %}
+{% endblock %}
+
+{% block js %}
+  <script>
+    // Delete confirmation function
+    function confirmDelete(id, name, msg) {
+        document.getElementById('modalMessage').innerText = `${msg} ${name}`;
+        const form = document.getElementById('deleteForm');
+        form.action = `/empleado_delete/${id}/`;
+        const modal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
+        modal.show();
+    }
+
+    function closeModal() {
+        const modalElement = document.getElementById('confirmDeleteModal');
+        const modalInstance = bootstrap.Modal.getInstance(modalElement);
+        if (modalInstance) {
+            modalInstance.hide();
+        }
+    }
+
+    function buscarEmpleado(query) {
+        fetch(`/empleado_list/?q=${encodeURIComponent(query)}`)
+            .then(response => response.text())
+            .then(html => {
+                // Reemplaza el contenido de la tabla con los nuevos resultados
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const newTableBody = doc.querySelector('tbody');
+                document.querySelector('table tbody').innerHTML = newTableBody.innerHTML;
+            })
+            .catch(error => {
+                console.error('Error al realizar la búsqueda:', error);
+            });
+    }
+
+    function verEmpleado(id) {
+    fetch(`/empleado_detail/${id}/`)  // Verifica que esta URL coincide con la que has definido en urls.py
+        .then(response => {
+            console.log(response); // Agrega esto para ver la respuesta del servidor
+            return response.json();
+        })
+        .then(data => {
+            if (data.error) {
+                console.error(data.error);
+                alert('Error: ' + data.error);
+            } else {
+                // Asignar datos a los elementos
+                document.getElementById('empleado-id').textContent = data.id;
+                document.getElementById('empleado-nombre').textContent = data.nombre_completo; // Cambié nombre a nombre_completo
+                document.getElementById('empleado-cedula').textContent = data.cedula;
+                document.getElementById('empleado-cargo').textContent = data.cargo;
+                document.getElementById('empleado-sueldo').textContent = data.sueldo;
+                document.getElementById('empleado-direccion').textContent = data.direccion;
+                document.getElementById('empleado-latitud').textContent = data.latitud;
+                document.getElementById('empleado-longitud').textContent = data.longitud;
+                
+                // Foto (puedes agregar un campo de foto si es necesario)
+                // Si no existe la foto, usar una por defecto
+                const fotoElement = document.getElementById('empleado-foto');
+                if (data.foto_url) {
+                    fotoElement.src = data.foto_url;  // Asignar la URL correcta de la foto
+                } else {
+                    fotoElement.src = '/static/default-avatar.jpg';  // Foto por defecto si no tiene foto
+                }
+
+                // Mostrar el modal
+                const modal = new bootstrap.Modal(document.getElementById('empleadoModal'));
+                modal.show();
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error al cargar los detalles del empleado');
+        });
+}
+
+
+  </script>
+{% endblock %}

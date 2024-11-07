@@ -1,0 +1,39 @@
+<!-- templates/includes/tipo_medicamento_detail_modal.html -->
+<div class="modal fade" id="tipoMedicamentoModal" tabindex="-1" aria-labelledby="tipoMedicamentoModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header bg-primary bg-opacity-75">
+              <h5 class="modal-title text-white fw-bold" id="tipoMedicamentoModalLabel">
+                  <i class="fas fa-pills me-2"></i>Detalles del Tipo de Medicamento
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <div class="row">
+                  <!-- Columna para el icono de tipo de medicamento -->
+                  <div class="col-md-4 text-center mb-3">
+                      <i class="fas fa-pills fa-3x text-primary"></i>
+                  </div>
+                  <!-- Columna para los datos -->
+                  <div class="col-md-8">
+                      <div class="row">
+                          <div class="col-md-6">
+                              <p><strong><i class="fas fa-id-card me-2"></i>ID:</strong> <span id="tipoMedicamento-id"></span></p>
+                              <p><strong><i class="fas fa-capsules me-2"></i>Nombre:</strong> <span id="tipoMedicamento-nombre"></span></p>
+                          </div>
+                          <div class="col-md-6">
+                              <p><strong><i class="fas fa-info-circle me-2"></i>Descripción:</strong> <span id="tipoMedicamento-descripcion"></span></p>
+                              <p><strong><i class="fas fa-check-circle me-2"></i>Activo:</strong> <span id="tipoMedicamento-activo"></span></p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                  <i class="fas fa-times me-2"></i>Cerrar
+              </button>
+          </div>
+      </div>
+  </div>
+</div>
