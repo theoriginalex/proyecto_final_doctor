@@ -1,0 +1,48 @@
+<div class="modal fade" id="medicamentoModal" tabindex="-1" aria-labelledby="medicamentoModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header bg-primary bg-opacity-75">
+        <h5 class="modal-title text-white fw-bold" id="medicamentoModalLabel">
+          <i class="fas fa-pills me-2"></i>Detalles del Medicamento
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+
+          <!-- Columna para la foto del medicamento -->
+          <div class="col-md-4 text-center mb-3">
+            <img id="medicamento-imagen" class="img-fluid" src="" alt="Foto del medicamento" style="max-width: 150px;">
+          </div>
+
+          <!-- Columna para los detalles del medicamento -->
+          <div class="col-md-8">
+            <div class="row">
+              <!-- Detalles del medicamento -->
+              <div class="col-12 col-md-6 mb-3">
+                <p><strong>ID:</strong> <span id="medicamento-id"></span></p>
+                <p><strong>Nombre:</strong> <span id="medicamento-nombre"></span></p>
+                <p><strong>Descripción:</strong> <span id="medicamento-descripcion"></span></p>
+                <p><strong>Precio:</strong> <span id="medicamento-precio"></span></p>
+              </div>
+              <div class="col-12 col-md-6 mb-3">
+                <p><strong>Cantidad Disponible:</strong> <span id="medicamento-cantidad"></span></p>
+                <p><strong>Marca:</strong> <span id="medicamento-marca"></span></p>
+                <p><strong>Comercial:</strong> <span id="medicamento-comercial"></span></p>
+                <p><strong>Fabricante:</strong> <span id="medicamento-fabricante"></span></p>
+                <p><strong>Estado:</strong> <span id="medicamento-estado"></span></p>
+                <p><strong>Concentracion:</strong> <span id="medicamento-concentracion"></span></p>
+                <p><strong>Tipo:</strong> <span id="medicamento-tipo"></span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          <i class="fas fa-times me-2"></i>Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

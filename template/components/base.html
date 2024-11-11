@@ -154,7 +154,41 @@
                                 ">
                                     <i class="fas fa-tint me-2"></i> Tipos Medicamentos
                                 </a>
-
+                                <a class="btn btn-danger text-white d-inline-flex align-items-center" href="{% url 'core:marca_medicamento_list' %}
+                                ">
+                                    <i class="fas fa-tint me-2"></i> Marca Medicamentos
+                                </a>
+                                <a class="btn btn-danger text-white d-inline-flex align-items-center" href="{% url 'core:medicamento_list' %}
+                                ">
+                                    <i class="fas fa-tint me-2"></i>Medicamentos
+                                </a>
+                                <a class="btn btn-danger text-white d-inline-flex align-items-center" href="{% url 'core:diagnostico_list' %}
+                                ">
+                                    <i class="fas fa-tint me-2"></i>Diagnostico
+                                </a>
+                                <a class="btn btn-danger text-white d-inline-flex align-items-center" href="{% url 'core:categoriaexamen_list' %}
+                                ">
+                                    <i class="fas fa-tint me-2"></i>Categoria Examen
+                                </a>
+                                <a class="btn btn-danger text-white d-inline-flex align-items-center" href="{% url 'core:tipocategoria_list' %}
+                                ">
+                                    <i class="fas fa-tint me-2"></i>Tipo Categoria
+                                </a>
+                                <a class="btn btn-danger text-white d-inline-flex align-items-center" href="{% url 'core:audituser_list' %}
+                                ">
+                                    <i class="fas fa-tint me-2"></i>Audit User
+                                </a>
+                                ||||||||||||||
+                                <a class="btn btn-danger text-white d-inline-flex align-items-center" href="{% url 'attention:horarioatencion_list' %}
+                                ">
+                                    <i class="fas fa-tint me-2"></i>Horario de Atención
+                                </a>
+                                <a class="btn btn-danger text-white d-inline-flex align-items-center" href="{% url 'attention:citamedica_list' %}
+                                ">
+                                    <i class="fas fa-tint me-2"></i>Cita medica
+                                </a>
+                                
+                                
                             </div>
                         </div>
                     </div>
@@ -234,3 +268,4 @@
    {% block js %}{% endblock %}
   </body>
 </html>
+

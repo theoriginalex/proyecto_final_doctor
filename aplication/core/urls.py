@@ -7,6 +7,13 @@ from aplication.core.views.doctor import DoctorListView, DoctorCreateView, Docto
 from aplication.core.views.cargo import CargoListView, CargoCreateView, CargoUpdateView, CargoDeleteView, CargoDetailView
 from aplication.core.views.empleado import EmpleadoListView, EmpleadoCreateView, EmpleadoUpdateView, EmpleadoDeleteView, EmpleadoDetailView
 from aplication.core.views.tipo_medicamento import TipoMedicamentoListView, TipoMedicamentoCreateView, TipoMedicamentoUpdateView, TipoMedicamentoDeleteView, TipoMedicamentoDetailView
+from aplication.core.views.marca_medicamento import MarcaMedicamentoListView, MarcaMedicamentoCreateView, MarcaMedicamentoUpdateView, MarcaMedicamentoDeleteView, MarcaMedicamentoDetailView
+from aplication.core.views.medicamento import MedicamentoListView, MedicamentoCreateView, MedicamentoUpdateView, MedicamentoDeleteView, MedicamentoDetailView
+from aplication.core.views.diagnostico import DiagnosticoListView, DiagnosticoCreateView, DiagnosticoUpdateView, DiagnosticoDeleteView, DiagnosticoDetailView
+from aplication.core.views.categoria_examen import CategoriaExamenListView, CategoriaExamenCreateView, CategoriaExamenUpdateView, CategoriaExamenDeleteView, CategoriaExamenDetailView
+from aplication.core.views.tipo_categoria import TipoCategoriaListView, TipoCategoriaCreateView, TipoCategoriaUpdateView, TipoCategoriaDeleteView, TipoCategoriaDetailView
+from aplication.core.views.audit_user import AuditUserListView, AuditUserDetailView
+
 
 
 
@@ -65,4 +72,45 @@ urlpatterns = [
   path('tipo_medicamento_delete/<int:pk>/', TipoMedicamentoDeleteView.as_view(), name='tipo_medicamento_delete'),
   path('tipo_medicamento_detail/<int:pk>/', TipoMedicamentoDetailView.as_view(), name='tipo_medicamento_detail'),
 
+
+  # marca_medicamento
+  path('marca_medicamento_list/', MarcaMedicamentoListView.as_view(), name='marca_medicamento_list'),
+  path('marca_medicamento_create/', MarcaMedicamentoCreateView.as_view(), name='marca_medicamento_create'),
+  path('marca_medicamento_update/<int:pk>/', MarcaMedicamentoUpdateView.as_view(), name='marca_medicamento_update'),
+  path('marca_medicamento_delete/<int:pk>/', MarcaMedicamentoDeleteView.as_view(), name='marca_medicamento_delete'),
+  path('marca_medicamento_detail/<int:pk>/', MarcaMedicamentoDetailView.as_view(), name='marca_medicamento_detail'),
+
+  #medicamento
+  path('medicamento_list/', MedicamentoListView.as_view(), name='medicamento_list'),
+  path('medicamento_create/', MedicamentoCreateView.as_view(), name='medicamento_create'),
+  path('medicamento_update/<int:pk>/', MedicamentoUpdateView.as_view(), name='medicamento_update'),
+  path('medicamento_delete/<int:pk>/', MedicamentoDeleteView.as_view(), name='medicamento_delete'),
+  path('medicamento_detail/<int:pk>/', MedicamentoDetailView.as_view(), name='medicamento_detail'),
+
+  # Diagnostico
+  path('diagnostico_list/', DiagnosticoListView.as_view(), name='diagnostico_list'),
+  path('diagnostico_create/', DiagnosticoCreateView.as_view(), name='diagnostico_create'),
+  path('diagnostico_update/<int:pk>/', DiagnosticoUpdateView.as_view(), name='diagnostico_update'),
+  path('diagnostico_delete/<int:pk>/', DiagnosticoDeleteView.as_view(), name='diagnostico_delete'),
+  path('diagnostico_detail/<int:pk>/', DiagnosticoDetailView.as_view(), name='diagnostico_detail'),
+
+  # Categoria_examen
+  path('categoriaexamen_list/', CategoriaExamenListView.as_view(), name='categoriaexamen_list'),
+  path('categoriaexamen_create/', CategoriaExamenCreateView.as_view(), name='categoriaexamen_create'),
+  path('categoriaexamen_update/<int:pk>/', CategoriaExamenUpdateView.as_view(), name='categoriaexamen_update'),
+  path('categoriaexamen_delete/<int:pk>/', CategoriaExamenDeleteView.as_view(), name='categoriaexamen_delete'),
+  path('categoriaexamen_detail/<int:pk>/', CategoriaExamenDetailView.as_view(), name='categoriaexamen_detail'),
+  
+  # Tipo_categoria
+  path('tipocategoria_list/', TipoCategoriaListView.as_view(), name='tipocategoria_list'),
+  path('tipocategoria_create/', TipoCategoriaCreateView.as_view(), name='tipocategoria_create'),
+  path('tipocategoria_update/<int:pk>/', TipoCategoriaUpdateView.as_view(), name='tipocategoria_update'),
+  path('tipocategoria_delete/<int:pk>/', TipoCategoriaDeleteView.as_view(), name='tipocategoria_delete'),
+  path('tipocategoria_detail/<int:pk>/', TipoCategoriaDetailView.as_view(), name='tipocategoria_detail'),
+  
+  # Audit_User
+  path('audituser_list/', AuditUserListView.as_view(), name='audituser_list'),
+  path('audituser_detail/<int:pk>/', AuditUserDetailView.as_view(), name='audituser_detail'),
+
+  # Horario_atencion
 ]

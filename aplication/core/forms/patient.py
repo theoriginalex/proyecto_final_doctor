@@ -10,7 +10,7 @@ class PatientForm(ModelForm):
         model = Paciente
         # campos que se muestran en este mismo orden en el formulario como etiquetas html
         fields = ["nombres","apellidos","cedula","fecha_nacimiento","telefono","email","sexo","estado_civil","direccion","latitud","longitud","tipo_sangre","foto","alergias","enfermedades_cronicas","medicacion_actual","cirugias_previas","antecedentes_personales","antecedentes_familiares","activo"]
-     
+
         # Mensajes de error personalizados para ciertos campos
         error_messages = {
             # "cedula": {
@@ -20,7 +20,6 @@ class PatientForm(ModelForm):
                 "unique": "Ya existe un paiente con este email.",
             },
         }
-     
         # Personalización de los widgets o etiquetas que se van a mostrar en el formulario html si no se desea el valor por default dado en el modelo
         widgets = {
             "nombres": forms.TextInput(

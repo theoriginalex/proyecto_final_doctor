@@ -1,0 +1,49 @@
+<!-- Modal para mostrar los detalles del Horario de Atención -->
+<div class="modal fade" id="horarioAtencionDetailModal" tabindex="-1" aria-labelledby="horarioAtencionDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold" id="horarioAtencionDetailModalLabel">Detalles del Horario de Atención</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <div class="container-fluid">
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label class="fw-bold">Día de la Semana:</label>
+                <p>{{ horario_atencion.dia_semana }}</p>
+              </div>
+              <div class="col-md-6">
+                <label class="fw-bold">Hora de Inicio:</label>
+                <p>{{ horario_atencion.hora_inicio }}</p>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label class="fw-bold">Hora de Fin:</label>
+                <p>{{ horario_atencion.hora_fin }}</p>
+              </div>
+              <div class="col-md-6">
+                <label class="fw-bold">Intervalo Desde:</label>
+                <p>{{ horario_atencion.Intervalo_desde }}</p>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label class="fw-bold">Intervalo Hasta:</label>
+                <p>{{ horario_atencion.Intervalo_hasta }}</p>
+              </div>
+              <div class="col-md-6">
+                <label class="fw-bold">Activo:</label>
+                <p>{{ horario_atencion.activo|yesno:"Sí,No" }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

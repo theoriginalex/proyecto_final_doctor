@@ -1,0 +1,53 @@
+<!-- templates/includes/tipo_categoria_detail_modal.html -->
+<div class="modal fade" id="tipoCategoriaModal" tabindex="-1" aria-labelledby="tipoCategoriaModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary bg-opacity-75">
+                <h5 class="modal-title text-white fw-bold" id="tipoCategoriaModalLabel">
+                    <i class="fas fa-flask me-2"></i>Detalles del Tipo de Examen
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <!-- Columna para el icono del examen -->
+                    <div class="col-md-4 text-center mb-3">
+                        <i class="fas fa-flask fa-3x text-primary"></i>
+                    </div>
+                    <!-- Columna para los datos -->
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong><i class="fas fa-id-card me-2"></i>ID:</strong> <span id="tipoCategoria-id"></span></p>
+                                <p><strong><i class="fas fa-cogs me-2"></i>Categoría de Examen:</strong> <span id="tipoCategoria-categoria"></span></p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong><i class="fas fa-capsules me-2"></i>Nombre del Examen:</strong> <span id="tipoCategoria-nombre"></span></p>
+                                <p><strong><i class="fas fa-info-circle me-2"></i>Descripción:</strong> <span id="tipoCategoria-descripcion"></span></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong><i class="fas fa-arrow-down me-2"></i>Valor Mínimo:</strong> <span id="tipoCategoria-valor_minimo"></span></p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong><i class="fas fa-arrow-up me-2"></i>Valor Máximo:</strong> <span id="tipoCategoria-valor_maximo"></span></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong><i class="fas fa-check-circle me-2"></i>Activo:</strong> <span id="tipoCategoria-activo"></span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-2"></i>Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+  </div>
+  

@@ -1,0 +1,87 @@
+{% extends "components/base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">{{ title1 }}</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row g-3">
+            <!-- Tipo de Medicamento -->
+            <div class="col-md-6">
+                <label for="id_tipo" class="form-label">{{ form.tipo.label }}</label>
+                {{ form.tipo }}
+                <div class="text-danger">{{ form.tipo.errors }}</div>
+            </div>
+
+            <!-- Marca del Medicamento -->
+            <div class="col-md-6">
+                <label for="id_marca_medicamento" class="form-label">{{ form.marca_medicamento.label }}</label>
+                {{ form.marca_medicamento }}
+                <div class="text-danger">{{ form.marca_medicamento.errors }}</div>
+            </div>
+
+            <!-- Nombre del Medicamento -->
+            <div class="col-md-6">
+                <label for="id_nombre" class="form-label">{{ form.nombre.label }}</label>
+                {{ form.nombre }}
+                <div class="text-danger">{{ form.nombre.errors }}</div>
+            </div>
+
+            <!-- Descripción del Medicamento -->
+            <div class="col-md-6">
+                <label for="id_descripcion" class="form-label">{{ form.descripcion.label }}</label>
+                {{ form.descripcion }}
+                <div class="text-danger">{{ form.descripcion.errors }}</div>
+            </div>
+
+            <!-- Concentración del Medicamento -->
+            <div class="col-md-6">
+                <label for="id_concentracion" class="form-label">{{ form.concentracion.label }}</label>
+                {{ form.concentracion }}
+                <div class="text-danger">{{ form.concentracion.errors }}</div>
+            </div>
+
+            <!-- Cantidad en Stock -->
+            <div class="col-md-6">
+                <label for="id_cantidad" class="form-label">{{ form.cantidad.label }}</label>
+                {{ form.cantidad }}
+                <div class="text-danger">{{ form.cantidad.errors }}</div>
+            </div>
+
+            <!-- Precio del Medicamento -->
+            <div class="col-md-6">
+                <label for="id_precio" class="form-label">{{ form.precio.label }}</label>
+                {{ form.precio }}
+                <div class="text-danger">{{ form.precio.errors }}</div>
+            </div>
+
+            <!-- Medicamento Comercial -->
+            <div class="col-md-6">
+                <label for="id_comercial" class="form-label">{{ form.comercial.label }}</label>
+                {{ form.comercial }}
+                <div class="text-danger">{{ form.comercial.errors }}</div>
+            </div>
+
+            <!-- Activo -->
+            <div class="col-md-6">
+                <label for="id_activo" class="form-label">{{ form.activo.label }}</label>
+                {{ form.activo }}
+                <div class="text-danger">{{ form.activo.errors }}</div>
+            </div>
+
+            <!-- Foto -->
+            <div class="col-md-6">
+                <label for="id_foto" class="form-label">{{ form.foto.label }}</label>
+                {{ form.foto }}
+                <div class="text-danger">{{ form.foto.errors }}</div>
+            </div>
+
+            <!-- Botones de acción -->
+            <div class="col-12 d-flex justify-content-between mt-4">
+                <a href="{{ back_url }}" class="btn btn-secondary">Cancelar</a>
+                <button type="submit" class="btn btn-primary">{{ grabar }}</button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
